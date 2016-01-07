@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<meta charset="utf8"/>
+<title> Say:"Cheese!" </title>
+
+<link rel="stylesheet" href="styles.css"/>
+<script type="text/javascript" src="jquery-2.1.4.min.js"> </script>
+
+<div class="layout">
+	<div class="image-holder center"> 
+		<div> 
+			<h2> Say:"Cheese!"</h2> 
+			<div>С Вас место, время </div>
+			<div> &nbsp;и коробочка конфет))</div>
+			<div class="social"> 			
+				<a href="http://vk.com/say_cheese07" target="blank"><div class="vk"> </div></a>
+				<a href="https://www.instagram.com/kat_onn/" target="blank"><div class="insta"> </div></a>
+			</div>
+		</div> 
+	</div>
+	<div class="image-grid">
+		<div class="image-holder disorder" id="img1"> 
+			<div class="image"></div>
+			<div class="title">
+				&#9825; 15/11/21
+			</div>
+		</div>
+		<div class="image-holder disorder" id="img2"> 
+			<div class="title">
+				November 2015 &#9829;
+			</div>
+			<div class="image"></div>
+	    </div>
+		<div class="image-holder disorder" id="img3"> 
+			<div class="image"></div>
+			<div class="title">
+				15/10/28 
+			</div>
+		</div>
+
+		<div class="image-holder disorder" id="img4"> 
+			<div class="image"></div>
+			<div class="title">
+				13.10.2015
+			</div>
+		</div>
+
+		<div class="image-holder disorder" id="none"> 
+			<div class="title">&npsp;</div><div class="image"></div></div>
+		<div class="image-holder disorder" id="img5"> 
+			<div class="image"></div>
+			<div class="title">&#9825; 22.08.2015 &#9825;</div>
+		</div>
+
+		<div class="image-holder disorder" id="img6"> 
+			<div class="image"></div>
+			<div class="title">
+				2015, Summer &#9728;
+			</div>
+		</div>
+		<div class="image-holder disorder" id="img7"> 
+			<div class="image"></div>
+			<div class="title">15/11/4</div>
+		</div>
+		<div class="image-holder disorder" id="img8"> 
+			<div class="image"></div>
+			<div class="title">2015, Octobrrr
+			</div>
+		</div>
+	</div>
+</div>
+
+<script> 
+
+$(document).ready(function() {
+	$( ".center" ).hover(
+	  function() {
+	  	elems = $(".image-holder");
+	  	for (var i=0;i<elems.length;i++)
+	  		if ($(elems[i]).hasClass('disorder')) 
+	  			$(elems[i]).removeClass('disorder');
+	  }, function() {
+	  	elems = $(".image-holder");
+	  	for (var i=0;i<elems.length;i++)
+	  		if (!$(elems[i]).hasClass('center')) 
+	  			$(elems[i]).addClass('disorder');
+	  });
+});
+
+
+</script>

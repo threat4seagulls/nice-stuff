@@ -1,0 +1,239 @@
+@font-face {
+    font-family: Hangyaboly; 
+    src: local("Hangyaboly"), url(fonts/Hangyaboly.ttf); 
+}
+
+body {
+	padding:0;
+	margin:0;
+	background-color: #eee;
+	font-family: Hangyaboly;
+}
+.layout {
+	position:relative;
+	margin:auto;
+	width: 740px;
+	min-width: 740px;
+	padding:10px;
+	border-top:none;
+	border-bottom:none;
+}
+
+/* images */
+
+.image-grid {
+	margin-left:70px;
+}
+
+.image-holder {
+	width:180px;
+	height:180px;
+	margin:0 0 10px 10px; 
+	padding:4px 4px  4px 4px;
+	display: inline-block;
+	position:relative;
+
+	border:1px solid #ccc;
+	/*-webkit-backface-visibility: hidden;*/
+	outline: 1px solid transparent;
+	background-color: #fff;
+	color:#888;
+	overflow:hidden;
+
+    -webkit-transition-duration: 700ms;
+    -moz-transition-duration: 700ms;
+    -o-transition-duration: 700ms;
+    transition-duration: 700ms;
+}
+.image-holder#none {
+	border:1px solid transparent;
+	background-color: transparent;
+}
+.image-holder .title {
+	display:inline-block;
+	height:20px;
+	width:100%;
+	text-align: center;
+}
+.image-holder .image{
+	width:180px;
+	height:180px;
+	display:inline-block;
+}
+
+#img1 .image{
+	background: url('img/0.jpg') 50% 0 no-repeat;
+	background-size: cover;
+}
+#img2 .image{
+	background: url('img/3.jpg') 50% 0 no-repeat;
+	background-size: cover;
+}
+#img3 .image{
+	background: url('img/6.jpg') 50% 0 no-repeat;
+	background-size: cover;
+}
+#img4 .image{
+	background: url('img/7.jpg') 80% 0 no-repeat;
+	background-size: cover;
+}
+#none .image{
+	background-color: transparent;
+}
+#img5 .image{
+	background: url('img/2.jpg') 0 25% no-repeat;
+	background-size: cover;
+}
+#img6 .image{
+	background: url('img/4.jpg') 75% 25% no-repeat;
+	background-size: cover;
+}
+#img7 .image{
+	background: url('img/5.jpg') 50% 25% no-repeat;
+	background-size: cover;
+}
+#img8 .image{
+	background: url('img/1.jpg') 40% 25% no-repeat;
+	background-size: cover;
+}
+
+#img1 .image, #img6 .image, #img4 .image {
+	float:right;
+	width:160px;
+}
+#img3 .image, #img5 .image, #img8 .image {
+	width:160px;
+}
+#img2 .image, #img7 .image {
+	height:160px; 
+}
+
+#img1 .title, #img6 .title, #img4 .title {
+	-webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: top left;   
+	-moz-transform: rotate(-90deg);
+    -moz-transform-origin: top left;   
+	-ms-transform: rotate(-90deg);
+    -ms-transform-origin: top left;   
+	-o-transform: rotate(-90deg);
+    -o-transform-origin: top left;   
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+#img3 .title, #img5 .title, #img8 .title {
+	-webkit-transform: rotate(90deg);
+    -webkit-transform-origin: top right;   
+	-moz-transform: rotate(90deg);
+    -moz-transform-origin: top right;   
+	-ms-transform: rotate(90deg);
+    -ms-transform-origin: top right;   
+	-o-transform: rotate(90deg);
+    -o-transform-origin: top right;   
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+
+/* animate images */
+.disorder {
+    -webkit-transition-duration: 700ms;
+    -moz-transition-duration: 700ms;
+    -o-transition-duration: 700ms;
+    transition-duration: 700ms;
+}
+
+.disorder:nth-child(1) {
+    -webkit-transform: scale(1.2) rotate(9deg) translate(30px, 20px);
+    -moz-transform: scale(1.2) rotate(9deg) translate(30px, 20px);
+    -o-transform: scale(1.2) rotate(9deg) translate(30px, 20px);
+    -ms-transform: scale(1.2) rotate(9deg) translate(30px, 20px);
+}
+.disorder:nth-child(2) {
+    -webkit-transform: scale(1.2) rotate(-4deg) translate(24px, 30px);
+    -moz-transform: scale(1.2) rotate(-4deg) translate(24px, 30px);
+    -o-transform: scale(1.2) rotate(-4deg) translate(24px, 30px);
+    -ms-transform: scale(1.2) rotate(-4deg) translate(24px, 30px);
+}
+.disorder:nth-child(3) {
+    -webkit-transform: scale(1.2) rotate(11deg) translate(14px, 25px);
+    -moz-transform: scale(1.2) rotate(11deg) translate(14px, 25px);
+    -o-transform: scale(1.2) rotate(11deg) translate(14px, 25px);
+    -ms-transform: scale(1.2) rotate(11deg) translate(14px, 25px);
+}
+.disorder:nth-child(4) {
+    -webkit-transform: scale(1.2) rotate(-10deg) translate(20px, 0px);
+    -moz-transform: scale(1.2) rotate(-10deg) translate(20px, 0px);
+    -o-transform: scale(1.2) rotate(-10deg) translate(20px, 0px);
+    -ms-transform: scale(1.2) rotate(-10deg) translate(20px, 0px);
+}
+.disorder:nth-child(6) {
+    -webkit-transform: scale(1.2) rotate(5deg) translate(-24px, 0px);
+    -moz-transform: scale(1.2) rotate(5deg) translate(-24px, 0px);
+    -o-transform: scale(1.2) rotate(5deg) translate(-24px, 0px);
+    -ms-transform: scale(1.2) rotate(5deg) translate(-24px, 0px);
+}
+.disorder:nth-child(7) {
+    -webkit-transform: scale(1.2) rotate(7deg) translate(30px, -20px);
+    -moz-transform: scale(1.2) rotate(7deg) translate(30px, -20px);
+    -o-transform: scale(1.2) rotate(7deg) translate(30px, -20px);
+    -ms-transform: scale(1.2) rotate(7deg) translate(30px, -20px);
+}
+.disorder:nth-child(8) {
+    -webkit-transform: scale(1.2) rotate(-10deg) translate(12px, -30px);
+    -moz-transform: scale(1.2) rotate(-10deg) translate(12px, -30px);
+    -o-transform: scale(1.2) rotate(-10deg) translate(12px, -30px);
+    -ms-transform: scale(1.2) rotate(-10deg) translate(12px, -30px);
+}
+.disorder:nth-child(9) {
+    -webkit-transform: scale(1.2) rotate(9deg) translate(-10px, -10px);
+    -moz-transform: scale(1.2) rotate(9deg) translate(-10px, -10px);
+    -o-transform: scale(1.2) rotate(9deg) translate(-10px, -10px);
+    -ms-transform: scale(1.2) rotate(9deg) translate(-10px, -10px);
+}
+
+
+
+
+
+/* centeral circle */
+
+.center {
+	position: absolute;
+	top: 210px;
+	left: 279px;
+	z-index:1000;
+	border-radius: 202px;
+	border: 4px double #aaa;
+	width:182px;
+	height:182px;
+	margin:0 0 10px 10px; 
+	background-color: #fff;
+	color:#000;
+}
+
+.center>div {
+	display:table-cell;
+	text-align: center;
+	vertical-align: middle;
+	height:182px;
+	width:182px;
+}	
+.center h2 {
+	margin-bottom:10px;
+}
+.social {
+	margin-top:10px;
+	display:inline-block;
+}
+.social a {
+	cursor: pointer;
+	display: inline-block;
+}
+.vk {
+	width:42px;
+	height: 42px;
+	background:url('social-logo.png') -60px 0 no-repeat;
+}
+.insta {
+	width:42px;
+	height: 42px;
+	background:url('social-logo.png') -160px 0 no-repeat;
+}
