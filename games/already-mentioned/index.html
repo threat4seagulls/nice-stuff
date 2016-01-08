@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<title> Already Mentioned </title>
+<script type="text/javascript" src="jquery-2.1.4.min.js"> </script>
+<script type="text/javascript" src="swig.min.js"> </script>
+<script type="text/javascript" src="product-list.js"> </script>
+<link rel="stylesheet" href="dist/bundle.min.css"/>
+<meta charset='utf8'/>
+<div class="container"> 
+<h1> <span class="emph"> Already Mentioned </span> <br> или "Очень длинный список продуктов" </h1> 
+<div class="control-panel"> 
+	<div class="rules"> Правила </div> 
+	<div class="settings"> Настройки </div> 
+	<div class="reload"> Новая игра </div> 
+</div>
+<div class="settings-text">
+<input type="checkbox" id="settings-easy" checked></input><label for="settings-easy">Легкий </label>
+<input type="checkbox" id="settings-medi"></input><label for="settings-medi">Средний </label>
+<input type="checkbox" id="settings-hard"></input><label for="settings-hard">Сложный </label>
+</div>
+<div class="rules-text">Перед походом в магазин был составлен список продуктов. Только продукты в нем повторялись не по одному разу. 
+	<br>Цель игры - без ошиок отмечать те продукты, которые уже упоминались ранее. <br>В настройках можно поменять уровень сложности. </div>
+<div class="status-panel"> 
+	<div> Результат: <span id="count"> 0% </span> </div> 
+	<div id="status-msg"></div>
+</div>
+<form> 
+</form>
+</div>
+
+<script id="template" type="text/x-swig-template">
+<form> 
+	{% for item in products %}
+	<div class="item">{{item}}</div>
+	{% endfor %}
+	<input type="submit" class="button-submit", value="Готово!"/> 
+</form>
+</script>
+
+
+<script> 
+var currentLevel = 'easy'
+var myProductList = new productList(currentLevel);
+var subList;
+var count = 0;
+var errors = 0;
+
+function generateList() {
+	subList = myProductList.getPart();
+	var content = swig.render($('#template').html(), { locals: { products: Object.keys(subList) } });
+	$('form').html(content);	
+	$('.item').on('click', function() {
+		$(this).toggleClass('item-selected');
+	});
+}
+generateList();
+
+function reloadGame() {
+	count = 0; errors = 0;
+	$('#count').text(count+"%");
+	myProductList = new productList(currentLevel);
+	generateList();
+}
+$('.rules').on('click', function() {
+	$('.rules-text').toggleClass('rules-text-show');
+});
+$('.settings').on('click', function() {
+	$('.settings-text').toggleClass('settings-text-show');
+});
+$('input[type="checkbox"]').on('click', function(e) {
+	var checkboxes = $('input[type="checkbox"]');
+	currentLevel = e.target.id.substr(9);
+	reloadGame();
+	for(var i=0;i<checkboxes.length;i++) {
+		if (checkboxes[i].id != e.target.id) $(checkboxes[i]).attr('checked', false);
+	}
+});
+
+$('.reload').on('click', function() {
+	myProductList = new productList(currentLevel);
+	reloadGame();
+});
+
+$('form').on('submit', function(e) {
+	e.preventDefault();
+	var elems = e.target.children;
+	var errorCount = 0;
+	for (var i=0;i<elems.length-1;i++)
+		if ($(elems[i]).hasClass('item-selected') != subList[$(elems[i]).text()]) {
+			$(elems[i]).toggleClass('wrong');
+			errorCount+=1;
+		}
+	count += elems.length-1;
+	errors += errorCount;
+	$('#count').text(Math.round((count-errors)*100/count)+"%");
+
+	var countMentioned = 0;
+	for (var i=0;i<elems.length-1;i++)
+		if (subList[$(elems[i]).text()]) 
+			countMentioned+=1;
+	if (countMentioned == elems.length-1) {
+		$('#status-msg').text('Еще раз?');
+		$('#status-msg').css('opacity','1');
+		setTimeout(function () { reloadGame(); $('#status-msg').css('opacity','0'); }, 1500);		
+	}
+	else {
+		if (errorCount == 0 ){
+			$('#status-msg').text('Супер!');
+			$('#status-msg').css('opacity','1');
+		}	
+		setTimeout(function () { generateList(); $('#status-msg').css('opacity','0'); }, 1500);		
+	}
+});
+
+</script> 

@@ -1,0 +1,129 @@
+@buttoncolor: lighten(#b9ab14,10%);
+@itemcolor: #bcdce5;
+@itemselected: #f5dddd;
+
+@font-face {
+    font-family: birchctt; 
+    src: local("birchctt"), url(birchctt.ttf); 
+}
+
+body {
+	padding:0;
+	margin: 0;
+	background: url('tekstura-produkty-pitaniya-cut.jpg') 0 0 repeat; 
+	font-family:Arial;
+	font-size:0.8em;
+}
+.container {
+	padding:0 20px 40px 20px;
+	margin:auto;
+	width:60%;
+	min-width: 370px;
+	background-color: white;
+	text-align: center;
+	h1 {
+		text-align:left;
+		color: darken(#b9ab14, 10%);
+		font-size:1.3em;
+		padding:20px;
+		margin: 0;
+		border-bottom: 4px double #eee;
+		.emph {
+			font-size:2em;
+			line-height:0.9em;
+			font-family:birchctt;
+		}
+	}
+}
+.control-panel, .status-panel {
+	padding: 10px 20px;
+	text-align: left;
+}
+.control-panel div, .button-submit {
+	cursor: pointer;
+	display: inline-block;
+	background-color: @buttoncolor;
+	padding:10px 20px;
+	border:none;
+	border-radius:5px;
+	&:hover {
+		background-color: darken(@buttoncolor,5%);
+	}
+}
+.settings {
+	margin-right:10px;
+}
+.status-panel {
+	font-family:birchctt;
+	color: darken(#b9ab14, 10%);
+	font-size:1.3em;
+	border-bottom: 4px double #eee;
+	span {
+		font-weight: bold;
+		font-size:2em;
+	}
+	div {
+		display: inline-block;
+	}
+	#status-msg {
+		padding-left: 60px;
+	    transition: opacity 0.2s ease;
+	    opacity: 0;
+	}
+}
+
+.rules-text, .settings-text {
+	text-align:left;
+	padding:0 20px;
+	height:0;
+	overflow:hidden;
+    transition: height 0.5s ease;
+}
+.rules-text-show{
+	overflow: auto;
+	height:80px;
+}
+.settings-text-show {
+	height:40px;
+}
+form {
+	padding:10px 20px;
+	.item {
+		cursor: pointer;
+		padding:10px;
+		margin: 2px auto;
+		background-color: lighten(@itemcolor,10%);
+		border-radius:5px;
+		width:60%;
+		font-family:birchctt;
+		font-size:1.3em;
+		&:hover {
+			background-color: lighten(@itemcolor,5%);
+		}
+	}
+	.item-selected {
+		background-color: darken(@itemselected,10%);
+		&:hover {
+			background-color: darken(@itemselected,10%);
+		}
+	}
+	.item.wrong {
+		background-color: darken(@itemselected,20%);
+		&:hover {
+			background-color: darken(@itemselected,20%);
+		}		
+	}
+	.item-selected.wrong {
+		background-color: darken(@itemcolor,20%);
+		&:hover {
+			background-color: darken(@itemcolor,20%);
+		}
+	}
+	.button-submit{
+		margin-top:10px;
+		font-family:Arial;
+		font-size:1em;
+	}
+
+}
+
