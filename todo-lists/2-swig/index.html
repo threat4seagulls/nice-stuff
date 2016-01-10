@@ -1,0 +1,138 @@
+<title> todo-list </title>
+<meta charset='utf-8'/>
+<!-- <script src="bower_components/jquery/dist/jquery.js"> </script> -->
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="js/swig.min.js"> </script>
+<link rel="stylesheet" href="dist/bundle.css">
+<script src="dist/bundle.js"></script>
+<div class="container">
+	<div class="header">
+		<img src="scotch.png" id="img1"/>
+		<div class="header-title">
+			<div class="big">Todo-List </div>
+			<div class="comment">What needs to be done?</div>
+		</div>
+		<div class="counters">
+			<div class="counter" id="total"> </div>
+			<div class="counter" id="done"> </div>
+		</div>
+		<img src="scotch.png" id="img2"/>
+	</div>
+	<div id="task-holder"> <br/> &nbsp; It's time to change your browser, dude! <br/><br/> </div>
+</div>
+
+<script id="templ-task" type="text/x-swig-template">
+	{% for task in tasks %}
+	<div class="task-item" id="{{ task.id }}" ondblclick="dbClicked($(this));"> 
+		<div class="task-hole"> </div>
+		<div class="task-item-info">
+			<div class="task-item-title">{{ task.title }} </div>
+			<div class="task-item-comment">{{ task.comment }} </div>
+		</div>
+		<div class="task-item-buttons">
+			<div class="button" onclick="doneTask($(this).parent().parent());"> &#10003; Done</div>
+			<div class="button" onclick="removeTask($(this).parent().parent());"> &#10007; Remove</div>
+		</div>
+	</div>
+	{% endfor %}
+	<div class="task-new-form"> 
+		<div class="button-add" onclick="renderEmptyForm();"> Add Task </div>
+		<div class="hint"> Hint: Double click to edit item in list. </div>
+	</div>
+</script>
+
+<script id="templ-taskform" type="text/x-swig-template">
+	<div class="task-item edit" id="{{ task.id }}"> 
+		<div class="task-hole"> </div>
+		<div class="task-item-info">
+			<input class="task-item-title" onkeydown="keyPressed($(this).parent().parent(), event)" 
+				placeholder="{{ task.title }}" value="{{ task.title }}" autofocus></input>
+			<input class="task-item-comment" onkeydown="keyPressed($(this).parent().parent(), event)" 
+				placeholder="{{ task.comment }}" value="{{ task.comment }}"></input>
+		</div>
+		<div class="task-item-buttons">
+			<div class="button" onclick="submitTask($(this).parent().parent());"> &#10003; Ok </div>
+			<div class="button" onclick="renderTasks()"> &#10007; Cancel</div>
+		</div>
+	</div>
+</script>
+<script id="templ-taskform-empty" type="text/x-swig-template">
+	<div class="task-item empty"> 
+		<div class="task-hole"> </div>
+		<div class="task-item-info">
+			<input class="task-item-title" onkeydown="keyPressed($(this).parent().parent(), event)" placeholder="title" value="" autofocus> </input>
+			<input class="task-item-comment" onkeydown="keyPressed($(this).parent().parent(), event)" placeholder="comment" value=""></input>
+		</div>
+		<div class="task-item-buttons">
+			<div class="button" onclick="submitTask($(this).parent().parent());"> &#10003; Ok</div>
+			<div class="button" onclick="renderTasks()"> &#10007; Calcel</div>
+		</div>
+	</div>
+</script>
+
+<script>
+
+var tasks = new TasksQueue();
+var isEditing = false;
+
+function renderTasks() {
+	var content = swig.render($('#templ-task').html(), {
+	            locals: {
+	            	tasks: tasks.getTasks()
+	            }
+	        });
+	$('#task-holder').html(content);
+	$('#total').text(tasks.getCount() + " Tasks");	
+	$('#done').text(tasks.getCountDone() + " Done");	
+	isEditing = false;
+}
+
+renderTasks();
+function renderEmptyForm(id) {
+	var content = swig.render($('#templ-taskform-empty').html(), {});
+	$('.task-new-form').html(content);
+	isEditing = true;
+}
+function renderForm(id, task) {
+	var content = swig.render($('#templ-taskform').html(), {
+	            locals: {
+	            	task: task
+	            }
+	        });
+	if (isEditing) {
+		renderTasks();
+	}
+	$('#'+id).html(content);
+	isEditing = true;
+}
+function dbClicked(self) {
+	renderForm(self.attr('id'), tasks.getTask(parseInt(self.attr('id'))));
+}
+function keyPressed(self, event) {
+	if(event.keyCode == 13) {
+		submitTask(self);
+	}
+	if(event.keyCode == 27) {
+		renderTasks();
+	}
+}
+function submitTask(self) {
+	task = {'title' : $(self.children()[1]).children()[0].value, 'comment' :$(self.children()[1]).children()[1].value};
+	if (self.attr('id')) 
+		task.id = parseInt(self.attr('id')); 
+	tasks.addTask(task);
+	renderTasks();
+}
+function removeTask(self) {
+	tasks.removeTask(parseInt(self.attr('id')));
+	$(self).remove();
+	$('#total').text(tasks.getCount() + " Tasks");	
+}
+function doneTask(self) {
+	console.log(self.attr('id'));
+	tasks.completeTask(parseInt(self.attr('id')));
+	$(self).remove();
+	$('#total').text(tasks.getCount() + " Tasks");	
+	$('#done').text(tasks.getCountDone() + " Done");	
+}
+</script>

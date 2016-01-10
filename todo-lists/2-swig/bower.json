@@ -1,0 +1,18 @@
+{
+  "name": "todo-list",
+  "homepage": "https://github.com/threat4seagulls/nice-stuff/todo-lists/2-swig/",
+  "authors": [
+    "threat4seagulls <threat4seagulls@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
