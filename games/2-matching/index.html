@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<title>2Matching</title>
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"> </script>
+<script type="text/javascript" src="swig.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="dist/bundle.min.css"> -->
+
+
+<div class="layout">
+	<h1> Find all matching pusheens! </h1>
+	<div id="control-panel"> </div>
+	<div id="gamefield"> </div>
+</div>
+
+
+<script id="control-panel-template" type="text/x-swig-template">
+	{% for i in num %}
+	<div class="complexity-holder">
+		<div class="complexity-item" id="{{ i }}" onclick="ChangeComplexity($(this));">{{ i }}</div>
+		<div class="complexity-best"> smth </div>
+	</div>
+	{% endfor %}
+	<div class="button" onclick="restartGame($(this));"> Restart </div>
+</script>
+
+
+<script id="gamefield-template" type="text/x-swig-template">
+
+	{% for i in num %}
+		{% for i in num %}
+		<div class="tile">
+		</div>
+		{% endfor %}
+	{% endfor %}
+
+</script>
+
+
+<script> 
+
+</script>
