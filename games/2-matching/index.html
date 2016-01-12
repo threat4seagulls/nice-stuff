@@ -29,7 +29,7 @@
 	{{#each images}}
 		<div class="tile-row">
 		{{#each this}}
-			<div class="tile" onclick="clickedTile($(this));">
+			<div class="tile" id="{{id}}" onclick="clickedTile($(this));">
 				<img class="img" src="{{src}}"/><img class="cover" src="pusheen/cover.jpg"/>
 			</div>
 		{{/each}}
@@ -42,8 +42,33 @@
 <script> 
 
 var timer, tileOpened;
+var defaultNumber = 8;
 
-function initGamefield(images) {
+function initGamefield(number) {
+
+	function generateImages(number) {
+		function shuffle(o){
+			for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+			return o;
+		}
+
+		var imgNumbers = [], images=[];
+		for (var i=0;i<number;i++)
+			for (var j=0;j<number/2;j++) {
+				imgNumbers.push(j*number+i+1);			
+				imgNumbers.push(j*number+i+1);			
+			}
+		imgNumbers = shuffle(imgNumbers);
+		for (var i=0;i<number;i++) {
+			images.push([]);			
+			for (var j=0;j<number;j++) {
+				images[i].push({src:'pusheen/'+(imgNumbers[j*number+i]).toString()+'.jpg', id: (imgNumbers[j*number+i]).toString()+':'+(j*number+i).toString()});
+			}
+		}
+		return images;
+	}
+
+	var images = generateImages(number);
 	var template = Handlebars.compile($('#gamefield-template').html());
 	var html = template({images: images});
 	$('#gamefield').html(html);	
@@ -61,7 +86,7 @@ function changeComplexity(elem) {
 		for (var i=0;i<elems.length;i++)
 			if ($(elems[i]).hasClass("current")) $(elems[i]).removeClass("current");
 	$(elem).addClass('current');
-	console.log($(elem).attr("id"));
+	initGamefield(parseInt($(elem).attr("id")));
 }
 
 function clickedTile(elem) {
@@ -76,7 +101,7 @@ function restartGame() {
 $(document).ready(function() {
 
 	initControlPanel([{'num':2, 'record': '0.0.0'}, {'num':4, 'record': '0.0.0'}, {'num':6, 'record': '0.0.0'}, {'num':8, 'record': '0.0.0'}]);
-	initGamefield([[ {src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}, {src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}, {src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}], [{src:'pusheen/2.jpg'}, {src:"pusheen/2.jpg"}]]);
+	initGamefield(defaultNumber);
 
 });
 
