@@ -41,9 +41,9 @@
 
 <script> 
 
-var timer, gameIsOn = false, tileOpened;
-var defaultNumber = 4;
-var pairsLeft, pairsTotal;
+var timer, s, m, h; 
+var gameIsOn = false, tileOpened, pairsLeft, pairsTotal;
+var defaultNumber = 4, records;
 
 function initGamefield(number) {
 
@@ -76,6 +76,21 @@ function initGamefield(number) {
 }
 
 function initControlPanel(data) {
+
+	records = JSON.parse(localStorage.getItem("PusheenRecords"));
+	if (records == null) {
+		var temp = [23, 59, 59];
+		records = [];
+		for (i = 1; i < 5; i++) records[2*i] = temp;
+		localStorage.setItem("PusheenRecords", JSON.stringify(records));
+	}
+
+	function forOutput(num) {
+		return (num / 10 >= 1 ? "" : "0") + num.toString(); 
+	}	
+
+	var data = [];
+	for (i = 1; i < 5; i++) data.push({num:2*i, record: forOutput(records[2*i][0])+":"+forOutput(records[2*i][1])+":"+forOutput(records[2*i][2])});
 	var template = Handlebars.compile($('#control-panel-template').html());
 	var html = template({data: data});
 	$('#control-panel').html(html);	
@@ -84,8 +99,20 @@ function initControlPanel(data) {
 function onGameOver() {
 	gameIsOn = false;
 	clearInterval(timer);
+	clearClock();
 	if (pairsLeft == 0) {
-		console.log("YAY");
+		if ( s+m*60+h*3600 < records[number][2]+records[number][1]*60+records[number][0]*3600){
+			number = parseInt($('.complexity-holder.current').attr('id'));
+			records[number] = [h, m, s];
+			
+			function forOutput(num) {
+				return (num / 10 >= 1 ? "" : "0") + num.toString(); 
+			}	
+
+			$(".complexity-holder#"+number.toString()+">.complexity-best").text
+				(forOutput(records[number][0])+":"+forOutput(records[number][1])+":"+forOutput(records[number][2]));
+			localStorage.setItem("PusheenRecords", JSON.stringify(records));
+		}
 	}
 }
 
@@ -168,8 +195,7 @@ function restartGame() {
 }
 
 $(document).ready(function() {
-
-	initControlPanel([{'num':2, 'record': '0.0.0'}, {'num':4, 'record': '0.0.0'}, {'num':6, 'record': '0.0.0'}, {'num':8, 'record': '0.0.0'}]);
+	initControlPanel();
 	initGamefield(defaultNumber);
 	$('.complexity-holder#'+defaultNumber.toString()).addClass('current');
 	pairsLeft = defaultNumber*defaultNumber/2, pairsTotal = defaultNumber*defaultNumber/2;
