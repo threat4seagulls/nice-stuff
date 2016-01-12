@@ -14,7 +14,7 @@
 
 
 <script id="control-panel-template" type="text/x-handlebars-template">
-	<div id="timer"> Time: 0.0.0 </div>
+	<div id="timer"> </div>
 	{{#each data}}
 	<div class="complexity-holder" id="{{num}}" onclick="changeComplexity($(this));">
 		<div class="complexity-item" >{{num}} tiles:</div>
@@ -41,8 +41,9 @@
 
 <script> 
 
-var timer, tileOpened;
-var defaultNumber = 8;
+var timer, gameIsOn = false, tileOpened;
+var defaultNumber = 4;
+var pairsLeft, pairsTotal;
 
 function initGamefield(number) {
 
@@ -80,29 +81,99 @@ function initControlPanel(data) {
 	$('#control-panel').html(html);	
 }
 
+function onGameOver() {
+	gameIsOn = false;
+	clearInterval(timer);
+	if (pairsLeft == 0) {
+		console.log("YAY");
+	}
+}
+
 
 function changeComplexity(elem) {
 	elems = $('.complexity-holder');
 		for (var i=0;i<elems.length;i++)
 			if ($(elems[i]).hasClass("current")) $(elems[i]).removeClass("current");
 	$(elem).addClass('current');
-	initGamefield(parseInt($(elem).attr("id")));
+	number = parseInt($(elem).attr("id"));
+	initGamefield(number);
+	pairsLeft = number*number/2, pairsTotal = number*number/2;
+	onGameOver();
 }
 
 function clickedTile(elem) {
+	if ($(elem).hasClass("fixed")) return;
+	if (!gameIsOn) {
+		gameIsOn = true;
+		startClock();	
+	}
 	$(elem).toggleClass("selected");
-	console.log($(elem).attr("id"));
+	if (tileOpened != null) {
+		id1 = $(elem).attr('id'), id2 = $(tileOpened).attr('id');
+		if (id1!=id2 && id1.slice(0,id1.indexOf(':')) == id2.slice(0,id2.indexOf(':'))) {
+			$(elem).addClass("fixed");
+			$(tileOpened).addClass("fixed");
+			pairsLeft -=1;
+			if (pairsLeft === 0) {
+				onGameOver();
+			}
+		}
+		else {
+			setTimeout(function(elem1, elem2) {
+				$(elem1).removeClass('selected');
+				$(elem2).removeClass('selected');
+			}, 650, elem, tileOpened);
+		}
+		tileOpened = null;
+	}
+	else 
+		tileOpened = elem;
+
 }
 
+function clearClock() {
+	$("#timer").text("00:00:00");
+}
+function startClock() {
+	function forOutput(num) {
+		return (num / 10 >= 1 ? "" : "0") + num.toString(); 
+	}	
+
+	h = 0; m = 0; s = 0;
+	timer = setInterval(function() {
+		s += 1;
+		if (s == 60) 
+		{
+			s = 0; m += 1;
+			if (m == 60) 
+			{
+				m = 0; h += 1;
+				if (h == 24)
+				{
+					clearInterval(timer);
+					clearClock();
+				} 
+			}
+		}
+		$("#timer").text(forOutput(h) + ":" + forOutput(m) + ":" + forOutput(s));
+	}, 1000);
+}
+
+
 function restartGame() {
-	console.log("restart");
+	number = parseInt($('.complexity-holder.current').attr('id'));
+	initGamefield(number);
+	pairsLeft = pairsTotal;
+	onGameOver();
 }
 
 $(document).ready(function() {
 
 	initControlPanel([{'num':2, 'record': '0.0.0'}, {'num':4, 'record': '0.0.0'}, {'num':6, 'record': '0.0.0'}, {'num':8, 'record': '0.0.0'}]);
 	initGamefield(defaultNumber);
-
+	$('.complexity-holder#'+defaultNumber.toString()).addClass('current');
+	pairsLeft = defaultNumber*defaultNumber/2, pairsTotal = defaultNumber*defaultNumber/2;
+	clearClock();
 });
 
 
