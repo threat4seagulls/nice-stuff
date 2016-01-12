@@ -4,33 +4,36 @@
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"> </script>
 <script type="text/javascript" src="node_modules/handlebars/dist/handlebars.min.js"> </script>
 
+<link rel="stylesheet" href="css/bundle.min.css"/>
 
 <div class="layout">
-	<h1> Find all matching pusheens! </h1>
+	<h1> Find all matching Pusheens! </h1>
 	<div id="control-panel"> </div>
 	<div id="gamefield"> </div>
 </div>
 
 
 <script id="control-panel-template" type="text/x-handlebars-template">
-	<div id="timer"> 0.0.0 </div>
+	<div id="timer"> Time: 0.0.0 </div>
 	{{#each data}}
 	<div class="complexity-holder" id="{{num}}" onclick="changeComplexity($(this));">
-		<div class="complexity-item" >{{num}}</div>
+		<div class="complexity-item" >{{num}} tiles:</div>
 		<div class="complexity-best"> {{record}} </div>
 	</div>
 	{{/each}}
-	<div class="button" onclick="restartGame($(this));"> Restart </div>
+	<div id="restart" onclick="restartGame($(this));"> Restart </div>
 </script>
 
 
 <script id="gamefield-template" type="text/x-handlebars-template">
 	{{#each images}}
+		<div class="tile-row">
 		{{#each this}}
-		<div class="tile" onclick="clickedTile($(this));">
-			<img src="{{src}}"/>
-		</div>
+			<div class="tile" onclick="clickedTile($(this));">
+				<img class="img" src="{{src}}"/><img class="cover" src="pusheen/cover.jpg"/>
+			</div>
 		{{/each}}
+		</div>
 	{{/each}}
 
 </script>
@@ -54,14 +57,15 @@ function initControlPanel(data) {
 
 
 function changeComplexity(elem) {
-	elems = $('.complexity-item');
+	elems = $('.complexity-holder');
 		for (var i=0;i<elems.length;i++)
-			if ($(elems[i]).hasClass("selected")) $(elems[i]).removeClass("selected");
+			if ($(elems[i]).hasClass("current")) $(elems[i]).removeClass("current");
 	$(elem).addClass('current');
 	console.log($(elem).attr("id"));
 }
 
 function clickedTile(elem) {
+	$(elem).toggleClass("selected");
 	console.log($(elem).attr("id"));
 }
 
@@ -71,8 +75,8 @@ function restartGame() {
 
 $(document).ready(function() {
 
-initControlPanel([{'num':2, 'record': '0.0.0'}, {'num':4, 'record': '0.0.0'}, {'num':6, 'record': '0.0.0'}, {'num':8, 'record': '0.0.0'}]);
-initGamefield([[{src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}]]);
+	initControlPanel([{'num':2, 'record': '0.0.0'}, {'num':4, 'record': '0.0.0'}, {'num':6, 'record': '0.0.0'}, {'num':8, 'record': '0.0.0'}]);
+	initGamefield([[ {src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}, {src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}, {src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}], [{src:'pusheen/2.jpg'}, {src:"pusheen/2.jpg"}]]);
 
 });
 
