@@ -2,9 +2,7 @@
 <meta charset="utf-8"/>
 <title>2Matching</title>
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"> </script>
-<script type="text/javascript" src="swig.min.js"> </script>
-
-<!-- <link rel="stylesheet" href="dist/bundle.min.css"> -->
+<script type="text/javascript" src="node_modules/handlebars/dist/handlebars.min.js"> </script>
 
 
 <div class="layout">
@@ -14,29 +12,69 @@
 </div>
 
 
-<script id="control-panel-template" type="text/x-swig-template">
-	{% for i in num %}
-	<div class="complexity-holder">
-		<div class="complexity-item" id="{{ i }}" onclick="ChangeComplexity($(this));">{{ i }}</div>
-		<div class="complexity-best"> smth </div>
+<script id="control-panel-template" type="text/x-handlebars-template">
+	<div id="timer"> 0.0.0 </div>
+	{{#each data}}
+	<div class="complexity-holder" id="{{num}}" onclick="changeComplexity($(this));">
+		<div class="complexity-item" >{{num}}</div>
+		<div class="complexity-best"> {{record}} </div>
 	</div>
-	{% endfor %}
+	{{/each}}
 	<div class="button" onclick="restartGame($(this));"> Restart </div>
 </script>
 
 
-<script id="gamefield-template" type="text/x-swig-template">
-
-	{% for i in num %}
-		{% for i in num %}
-		<div class="tile">
+<script id="gamefield-template" type="text/x-handlebars-template">
+	{{#each images}}
+		{{#each this}}
+		<div class="tile" onclick="clickedTile($(this));">
+			<img src="{{src}}"/>
 		</div>
-		{% endfor %}
-	{% endfor %}
+		{{/each}}
+	{{/each}}
 
 </script>
 
 
 <script> 
+
+var timer, tileOpened;
+
+function initGamefield(images) {
+	var template = Handlebars.compile($('#gamefield-template').html());
+	var html = template({images: images});
+	$('#gamefield').html(html);	
+}
+
+function initControlPanel(data) {
+	var template = Handlebars.compile($('#control-panel-template').html());
+	var html = template({data: data});
+	$('#control-panel').html(html);	
+}
+
+
+function changeComplexity(elem) {
+	elems = $('.complexity-item');
+		for (var i=0;i<elems.length;i++)
+			if ($(elems[i]).hasClass("selected")) $(elems[i]).removeClass("selected");
+	$(elem).addClass('current');
+	console.log($(elem).attr("id"));
+}
+
+function clickedTile(elem) {
+	console.log($(elem).attr("id"));
+}
+
+function restartGame() {
+	console.log("restart");
+}
+
+$(document).ready(function() {
+
+initControlPanel([{'num':2, 'record': '0.0.0'}, {'num':4, 'record': '0.0.0'}, {'num':6, 'record': '0.0.0'}, {'num':8, 'record': '0.0.0'}]);
+initGamefield([[{src:'pusheen/1.jpg'}, {src:"pusheen/1.jpg"}]]);
+
+});
+
 
 </script>
