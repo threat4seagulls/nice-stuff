@@ -21,7 +21,8 @@ body {
 .layout {
 	min-width:900px;
 	width:900px;
-	height:100%;
+	min-height:100%;
+	overflow:hidden;
 	margin:0 auto;
 	padding:10px 20px;
 	background-color:#fff;
@@ -38,6 +39,26 @@ body {
 	}
 }
 
+#state-panel {
+	div:first-child{
+		color:darken(@bordo, 10%);
+		font-weight:bold;
+		font-size:1.2em;
+	}
+	div#message-status {
+		font-size:1em;
+		color:@bordo;
+		opacity:0.6px;
+	}
+	& div {
+		text-align:right;
+		width:100%;
+		display:block;
+	}
+	overflow:hidden;
+	max-height:0;
+    transition: max-height 350ms; 
+}
 #control-panel {
 	display:inline-block;
 	vertical-align:top;
@@ -103,6 +124,7 @@ body {
 	max-width:680px;
 	display:inline-block;
 	vertical-align:top;
+	overflow:auto;
 	.tile-row{
 		display:block;
 	}
@@ -133,6 +155,12 @@ body {
 	.tile.selected {
 		transition-duration: 700ms;		
 		transform: rotate3d(0, 1, 0, 180deg);
+	}
+	img {
+		width:76px;
+		height:76px;
+		border: 2px solid @bordo;
+		border-radius: 4px;
 	}
 
 }

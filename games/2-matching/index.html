@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="css/bundle.min.css"/>
 
 <div class="layout">
-	<h1> Find all matching Pusheens! </h1>
+	<h1> Find all matching Pusheens :3 </h1>
+	<div id="state-panel"> <div>Congratulations!!!</div> <div id="message-status">&nbsp; Good result! </div></div>
 	<div id="control-panel"> </div>
 	<div id="gamefield"> </div>
 </div>
@@ -100,6 +101,7 @@ function onGameOver() {
 	clearInterval(timer);
 	clearClock();
 	if (pairsLeft == 0) {
+		$('#state-panel').css("max-height", "3.2em");
 		var number = parseInt($('.complexity-holder.current').attr('id'));
 		if ( s+m*60+h*3600 < records[number][2]+records[number][1]*60+records[number][0]*3600){
 			records[number] = [h, m, s];
@@ -108,9 +110,11 @@ function onGameOver() {
 				return (num / 10 >= 1 ? "" : "0") + num.toString(); 
 			}	
 
+			recordTimeText = forOutput(records[number][0])+":"+forOutput(records[number][1])+":"+forOutput(records[number][2]);
 			$(".complexity-holder#"+number.toString()+">.complexity-best").text
-				(forOutput(records[number][0])+":"+forOutput(records[number][1])+":"+forOutput(records[number][2]));
+				(recordTimeText);
 			localStorage.setItem("PusheenRecords", JSON.stringify(records));
+			$('#message-status').text("You have a new record on "+number.toString()+" tiles: "+recordTimeText);
 		}
 	}
 }
@@ -125,6 +129,7 @@ function changeComplexity(elem) {
 	initGamefield(number);
 	pairsLeft = number*number/2, pairsTotal = number*number/2;
 	onGameOver();
+	$('#state-panel').css("max-height", "0");
 }
 
 function clickedTile(elem) {
@@ -191,6 +196,7 @@ function restartGame() {
 	initGamefield(number);
 	pairsLeft = pairsTotal;
 	onGameOver();
+	$('#state-panel').css("max-height", "0");
 }
 
 $(document).ready(function() {
