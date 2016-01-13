@@ -2,6 +2,12 @@
 @pink: #ffc1da;
 @bordo: #7e425b;
 
+@font-face {
+    font-family: ComicSansBold; 
+    src: local("Comic Sans Bold"), url(ComicSansBold.ttf); 
+}
+
+
 html {
 	height:100%;
 }
@@ -10,6 +16,7 @@ body {
 	padding:0;
 	height:100%;
 	background-color:@bkg;
+	font-family:ComicSansBold;
 }
 .layout {
 	min-width:900px;
@@ -24,6 +31,10 @@ body {
 		width:100%;
 		background-color:@bordo;
 		color:#fff;
+		text-shadow: 3px 3px 5px #000;
+		-webkit-text-shadow: 3px 3px 5px #000;
+		box-shadow: 0px 2px 4px rgba(0,0,0, 0.5);
+		-webkit-box-shadow: 0px 2px 4px rgba(0,0,0, 0.5);
 	}
 }
 
@@ -44,6 +55,8 @@ body {
 		background-color:@bkg;
 		border-bottom: 1px solid darken(@bkg, 5%);
 		cursor:pointer;
+		box-shadow: 0px 2px 4px rgba(0,0,0, 0.5);
+		-webkit-box-shadow: 0px 2px 4px rgba(0,0,0, 0.5);
 		&:hover:not(.current){
 			background-color:darken(@bkg, 3%);
 		}
@@ -54,15 +67,29 @@ body {
 	.complexity-holder:last-of-type {
 		border:none !important;
 	}
+	#timer-holder{
+		overflow:hidden;
+	}
+	#timer-holder img{
+		vertical-align:top;
+		padding:10px 0;
+		height:30px;
+		width:30px;
+	}
 	#timer {
+		vertical-align:top;
 		text-align:center;
 		padding:10px;
+		font-size:1.1em;
+		font-weight:bold;
+		overflow:hidden;
 	}
 	#restart {
 		text-align:center;
 		padding:10px;
 		margin:10px 0;
 		background-color: @pink;			
+		box-shadow: 0px 2px 4px rgba(0,0,0, 0.5);
 		cursor:pointer;
 		&:hover {
 			background-color: darken(@pink,3%);			
@@ -72,7 +99,6 @@ body {
 
 #gamefield {
 	width:100%;
-	border:1px solid darken(@bkg, 10%);
 	padding:10px;
 	max-width:680px;
 	display:inline-block;

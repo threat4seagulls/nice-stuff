@@ -14,7 +14,7 @@
 
 
 <script id="control-panel-template" type="text/x-handlebars-template">
-	<div id="timer"> </div>
+	<div id="timer-holder"><img src="timer.png"/><div id="timer"></div></div>
 	{{#each data}}
 	<div class="complexity-holder" id="{{num}}" onclick="changeComplexity($(this));">
 		<div class="complexity-item" >{{num}} tiles:</div>
