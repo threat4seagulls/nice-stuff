@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8"/>
 <title>2Matching</title>
-<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"> </script>
-<script type="text/javascript" src="node_modules/handlebars/dist/handlebars.min.js"> </script>
+<script type="text/javascript" src="js/jquery.min.js"> </script>
+<script type="text/javascript" src="js/handlebars.min.js"> </script>
 
 <link rel="stylesheet" href="css/bundle.min.css"/>
 
@@ -35,7 +35,6 @@
 		{{/each}}
 		</div>
 	{{/each}}
-
 </script>
 
 
@@ -101,8 +100,8 @@ function onGameOver() {
 	clearInterval(timer);
 	clearClock();
 	if (pairsLeft == 0) {
+		var number = parseInt($('.complexity-holder.current').attr('id'));
 		if ( s+m*60+h*3600 < records[number][2]+records[number][1]*60+records[number][0]*3600){
-			number = parseInt($('.complexity-holder.current').attr('id'));
 			records[number] = [h, m, s];
 			
 			function forOutput(num) {
