@@ -8,7 +8,7 @@
 
 <div class="layout">
 	<h1> Find all matching Pusheens :3 </h1>
-	<div id="state-panel"> <div>Congratulations!!!</div> <div id="message-status">&nbsp; Good result! </div></div>
+	<div id="state-panel"> <div>Congratulations!!!</div> <div id="message-status"></div></div>
 	<div id="control-panel"> </div>
 	<div id="gamefield"> </div>
 </div>
@@ -102,7 +102,8 @@ function onGameOver() {
 	clearClock();
 	if (pairsLeft == 0) {
 		$('#state-panel').css("max-height", "3.2em");
-		var number = parseInt($('.complexity-holder.current').attr('id'));
+		$('#message-status').text("Good result!");
+		var number = parseInt($('.complexity-holder.current').attr('id')); 
 		if ( s+m*60+h*3600 < records[number][2]+records[number][1]*60+records[number][0]*3600){
 			records[number] = [h, m, s];
 			
